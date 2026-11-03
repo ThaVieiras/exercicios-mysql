@@ -84,3 +84,20 @@ INSERT INTO Mensagens (texto, id_contato) VALUES
 SELECT Contatos.nome, Mensagens.texto, Mensagens.data_envio
 FROM Mensagens
 JOIN Contatos ON Mensagens.id_contato = Contatos.id;
+
+-- Exercício (Prof Substituto) tarefa_casa.sql
+-- 1) Inserir Contato: Adiciona o seu registo na tabela Contatos
+INSERT INTO Contatos (nome, telefone) 
+VALUES ('Thaís Vieira', '(11) 99999-8888');
+
+-- 2) Enviar Mensagem: Adiciona uma mensagem associada ao id do novo contato
+-- Nota: Supondo que o id gerado seja o 4 (ajuste o id se necessário no meu banco)
+INSERT INTO Mensagens (texto, id_contato) 
+VALUES ('Tarefa de casa concluída com sucesso!', 4);
+
+-- 3) Consultar com JOIN: Exibe o meu nome e minha mensagem na tela
+SELECT Contatos.nome, Mensagens.texto, Mensagens.data_envio
+FROM Mensagens
+JOIN Contatos ON Mensagens.id_contato = Contatos.id
+WHERE Contatos.nome = 'Thaís Vieira';
+
