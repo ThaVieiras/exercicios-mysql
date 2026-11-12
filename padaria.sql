@@ -1,8 +1,8 @@
 -- Todos os arquivos apontando para mesma base 
 USE DB_T05072C_Thais_Vieira;
+select * from padaria_produto;
 
 -- padarianew.sql (NEW)
-
 -- Tabela Padaria Fornecedor
 CREATE TABLE IF NOT EXISTS padaria_fornecedor (
     id_fornecedor INT PRIMARY KEY AUTO_INCREMENT,
@@ -55,3 +55,39 @@ CREATE TABLE IF NOT EXISTS itens_vendidos (
     FOREIGN KEY (id_venda) REFERENCES padaria_venda(id_venda),
     FOREIGN KEY (id_produto) REFERENCES padaria_produto(id_produto)
 );
+
+--  Desafio 1
+SELECT 
+    p.id_produto,
+    p.nome AS produto,
+    p.preco,
+    COUNT(iv.id_produto) AS total_vendas
+FROM padaria_produto p
+LEFT JOIN itens_vendidos iv ON p.id_produto = iv.id_produto
+GROUP BY p.id_produto, p.nome, p.preco
+ORDER BY p.id_produto ASC;
+
+-- SELECT com a soma total dos produtos (criou-se uma coluta com total dos produtos)
+SELECT 
+    p.id_produto,
+    p.nome AS produto,
+    p.preco AS preco_unitario,
+    COUNT(iv.id_produto) AS total_vendas,
+    IFNULL(SUM(iv.quantidade * iv.preco_unitario), 0.00) AS valor_total_arrecadado
+FROM padaria_produto p
+LEFT JOIN itens_vendidos iv ON p.id_produto = iv.id_produto
+GROUP BY p.id_produto, p.nome, p.preco
+ORDER BY p.id_produto ASC;
+
+-- Desafio 2
+SELECT 
+    id_produto,
+    nome AS produto,
+    preco,
+    CASE 
+        WHEN preco <= 5.00 THEN 'Barato'
+        WHEN preco <= 15.00 THEN 'Intermediário'
+        ELSE 'Caro'
+    END AS faixa_preco
+FROM padaria_produto
+ORDER BY preco ASC;
